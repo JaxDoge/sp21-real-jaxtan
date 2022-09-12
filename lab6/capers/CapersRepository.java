@@ -1,6 +1,10 @@
 package capers;
 
+import jdk.jshell.execution.Util;
+
 import java.io.File;
+import java.io.IOException;
+
 import static capers.Utils.*;
 
 /** A repository for Capers 
@@ -18,9 +22,10 @@ public class CapersRepository {
     static final File CWD = new File(System.getProperty("user.dir"));
 
     /** Main metadata folder. */
-    static final File CAPERS_FOLDER = null; // TODO Hint: look at the `join`
+    static final File CAPERS_FOLDER = Utils.join(CWD, ".capers"); // TODO Hint: look at the `join`
                                             //      function in Utils
-
+    static final File story = Utils.join(CAPERS_FOLDER, "story.txt");
+    static final File dogs = Utils.join(CAPERS_FOLDER, "dogs");
     /**
      * Does required filesystem operations to allow for persistence.
      * (creates any necessary folders or files)
@@ -30,8 +35,19 @@ public class CapersRepository {
      *    - dogs/ -- folder containing all of the persistent data for dogs
      *    - story -- file containing the current story
      */
-    public static void setupPersistence() {
-        // TODO
+    public static void setupPersistence() throws IOException {
+        // Create .capers directory
+        if (!CAPERS_FOLDER.exists()) {
+            CAPERS_FOLDER.mkdirs();
+        }
+        // Create story file if it does not exist.
+        if (!story.exists()) {
+            story.createNewFile();
+        }
+        // Create dogs directory if it does not exist
+        if (!dogs.exists()) {
+            dogs.mkdirs();
+        }
     }
 
     /**
@@ -40,7 +56,15 @@ public class CapersRepository {
      * @param text String of the text to be appended to the story
      */
     public static void writeStory(String text) {
-        // TODO
+        String curStory = Utils.readContentsAsString(story);
+        String newStory;
+        if (curStory.isEmpty()) {
+            newStory = text;
+        } else {
+            newStory = curStory + "\n" + text;
+        }
+        Utils.writeContents(story, newStory);
+        System.out.println(newStory);
     }
 
     /**
