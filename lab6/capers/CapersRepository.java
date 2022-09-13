@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 
 import static capers.Utils.*;
+import static capers.Dog.*;
 
 /** A repository for Capers 
  * @author TODO
@@ -73,7 +74,9 @@ public class CapersRepository {
      * Also prints out the dog's information using toString().
      */
     public static void makeDog(String name, String breed, int age) {
-        // TODO
+        Dog curDog = new Dog(name, breed, age);
+        curDog.saveDog();
+        curDog.toString();
     }
 
     /**
@@ -83,6 +86,7 @@ public class CapersRepository {
      * @param name String name of the Dog whose birthday we're celebrating.
      */
     public static void celebrateBirthday(String name) {
-        // TODO
+        Dog curDog = Dog.fromFile(name);
+        curDog.haveBirthday();
     }
 }
